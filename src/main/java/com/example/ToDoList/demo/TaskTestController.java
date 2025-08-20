@@ -1,6 +1,9 @@
 package com.example.ToDoList.demo;
 
+import com.example.ToDoList.dto.TaskDto;
 import com.example.ToDoList.dto.auth.AuthenticationRequest;
+import com.example.ToDoList.exception.TaskNotFoundException;
+import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.service.implService.TaskServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +19,13 @@ public class TaskTestController {
     private final TaskServiceImpl service;
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<TaskEntity> getById(@PathVariable Integer id){
-        return ResponseEntity.ok(service.findById(id));
+    public ResponseEntity<TaskDto> getById(@PathVariable Integer id){
+        try {
+            return ResponseEntity.ok(service.findById(id));
+        }
+        catch (TaskNotFoundException  e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("delete/{id}")

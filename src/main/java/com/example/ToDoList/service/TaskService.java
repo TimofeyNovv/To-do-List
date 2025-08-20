@@ -1,12 +1,13 @@
 package com.example.ToDoList.service;
 
+import com.example.ToDoList.dto.TaskDto;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
 
 public interface TaskService {
 
-    TaskEntity findById(Integer id);
-    TaskEntity finsByOwner(UserEntity owner);
+    TaskDto findById(Integer id);
+    TaskDto finsByOwner(UserEntity owner);
 
     void deleteById(Integer id);
     void deleteByOwner(UserEntity owner);

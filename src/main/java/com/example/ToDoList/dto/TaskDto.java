@@ -1,7 +1,15 @@
 package com.example.ToDoList.dto;
 
 import com.example.ToDoList.model.entity.task.StatusTask;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class TaskDto {
 
     private String title;
