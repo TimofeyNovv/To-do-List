@@ -1,0 +1,33 @@
+package com.example.ToDoList.demo;
+
+import com.example.ToDoList.dto.auth.AuthenticationRequest;
+import com.example.ToDoList.model.entity.task.TaskEntity;
+import com.example.ToDoList.service.implService.TaskServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.PreparedStatement;
+
+@RestController
+@RequestMapping("demo/task")
+@RequiredArgsConstructor
+public class TaskTestController {
+    private final TaskServiceImpl service;
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<TaskEntity> getById(@PathVariable Integer id){
+        return ResponseEntity.ok(service.findById(id));
+    }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<TaskEntity> delById(@PathVariable Integer id){
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+    @PostMapping("create")
+    public ResponseEntity<TaskEntity> create(@RequestBody TaskEntity entity){
+        service.create(entity);
+        return ResponseEntity.noContent().build();
+    }
+}
