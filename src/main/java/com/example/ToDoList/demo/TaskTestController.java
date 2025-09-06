@@ -1,16 +1,12 @@
 package com.example.ToDoList.demo;
 
-import com.example.ToDoList.dto.TaskDto;
-import com.example.ToDoList.dto.auth.AuthenticationRequest;
+import com.example.ToDoList.dto.TaskResponseDto;
 import com.example.ToDoList.exception.TaskNotFoundException;
-import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.service.implService.TaskServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.PreparedStatement;
 
 @RestController
 @RequestMapping("demo/task")
@@ -19,7 +15,7 @@ public class TaskTestController {
     private final TaskServiceImpl service;
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<TaskDto> getById(@PathVariable Integer id){
+    public ResponseEntity<TaskResponseDto> getById(@PathVariable Integer id){
         try {
             return ResponseEntity.ok(service.findById(id));
         }

@@ -1,6 +1,7 @@
 package com.example.ToDoList.service.implService;
 
-import com.example.ToDoList.dto.TaskDto;
+import com.example.ToDoList.dto.TaskResponseDto;
+import com.example.ToDoList.dto.UserSmallInfoDto;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
@@ -15,25 +16,44 @@ import org.springframework.stereotype.Service;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository repository;
-    private final UserRepository userRepository;
+
     @Override
-    public TaskDto findById(Integer id) {
+    public TaskResponseDto findById(Integer id) {
         TaskEntity task = repository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id - " + id + " not found"));
-        return TaskDto.builder()
+
+
+        UserEntity ownerEntity = task.getOwner();
+        UserSmallInfoDto owner = UserSmallInfoDto.builder()
+                .name(ownerEntity.getName())
+                .email(ownerEntity.getEmail())
+                .role(ownerEntity.getRole())
+                .build();
+
+        return TaskResponseDto.builder()
                 .title(task.getTitle())
                 .description(task.getDescription())
-                .status(task.getStatus()).build();
+                .status(task.getStatus())
+                .owner(owner)
+                .build();
     }
 
     @Override
-    public TaskDto finsByOwner(UserEntity owner) {
+    public TaskResponseDto finsByOwner(UserEntity owner) {
         TaskEntity task =  repository.findByOwner(owner)
                 .orElseThrow(() -> new TaskNotFoundException("Task with owner - " + owner + " not found"));
-        return TaskDto.builder()
-                .status(task.getStatus())
+
+        UserSmallInfoDto ownerDto = UserSmallInfoDto.builder()
+                .name(owner.getName())
+                .email(owner.getEmail())
+                .role(owner.getRole())
+                .build();
+
+        return TaskResponseDto.builder()
                 .title(task.getTitle())
                 .description(task.getDescription())
+                .status(task.getStatus())
+                .owner(ownerDto)
                 .build();
     }
 

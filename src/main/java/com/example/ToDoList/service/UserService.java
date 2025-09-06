@@ -1,12 +1,11 @@
 package com.example.ToDoList.service;
 
-import com.example.ToDoList.dto.UserDto;
-import com.example.ToDoList.model.entity.user.UserEntity;
+import com.example.ToDoList.dto.UserResponseDto;
 
 public interface UserService {
 
-    UserDto findById(Integer id);
-    UserDto findByEmail(String email);
+    UserResponseDto findById(Integer id);
+    UserResponseDto findByEmail(String email);
 
     void deleteUserById(Integer id);
     void deleteUserByEmail(String email);

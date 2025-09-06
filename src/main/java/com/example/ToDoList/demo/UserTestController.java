@@ -1,6 +1,6 @@
 package com.example.ToDoList.demo;
 
-import com.example.ToDoList.dto.UserDto;
+import com.example.ToDoList.dto.UserResponseDto;
 import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.service.implService.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ public class UserTestController {
     private final UserServiceImpl service;
 
     @GetMapping("/email/{email}")
-    public ResponseEntity<UserDto> getByEmail(@PathVariable String email) {
+    public ResponseEntity<UserResponseDto> getByEmail(@PathVariable String email) {
         try {
             return ResponseEntity.ok(service.findByEmail(email));
         } catch (UserNotFoundException e) {
@@ -24,7 +24,7 @@ public class UserTestController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<UserDto> getById(@PathVariable Integer id) {
+    public ResponseEntity<UserResponseDto> getById(@PathVariable Integer id) {
         try {
             return ResponseEntity.ok(service.findById(id));
         } catch (UserNotFoundException e) {

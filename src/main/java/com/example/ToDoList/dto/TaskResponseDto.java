@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class TaskDto {
+public class TaskResponseDto {
 
     private String title;
     private String description;
     private StatusTask status;
-    private UserDto owner;
+    private UserSmallInfoDto owner;
 }
