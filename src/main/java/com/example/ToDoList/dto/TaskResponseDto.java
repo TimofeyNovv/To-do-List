@@ -16,4 +16,5 @@ public class TaskResponseDto {
     private String description;
     private StatusTask status;
     private UserSmallInfoDto owner;
+
 }

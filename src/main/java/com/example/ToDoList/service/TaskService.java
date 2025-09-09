@@ -13,4 +13,5 @@ public interface TaskService {
     void deleteByOwner(UserEntity owner);
 
     void create(TaskEntity entity);
+
 }

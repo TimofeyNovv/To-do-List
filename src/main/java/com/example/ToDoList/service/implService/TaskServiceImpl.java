@@ -6,7 +6,6 @@ import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.repository.TaskRepository;
-import com.example.ToDoList.repository.UserRepository;
 import com.example.ToDoList.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public TaskResponseDto finsByOwner(UserEntity owner) {
-        TaskEntity task =  repository.findByOwner(owner)
+        TaskEntity task = repository.findByOwner(owner)
                 .orElseThrow(() -> new TaskNotFoundException("Task with owner - " + owner + " not found"));
 
         UserSmallInfoDto ownerDto = UserSmallInfoDto.builder()
@@ -58,7 +57,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteById(Integer id){
+    public void deleteById(Integer id) {
         repository.deleteById(id);
     }
 
@@ -72,4 +71,5 @@ public class TaskServiceImpl implements TaskService {
         //entity.setOwner(userRepository.getById(4));
         repository.save(entity);
     }
+
 }

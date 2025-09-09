@@ -8,10 +8,13 @@ import java.util.Optional;
 
 
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
+
     Optional<TaskEntity> findById(Integer id);
     Optional<TaskEntity> findByOwner(UserEntity owner);
 
+
     void deleteById(Integer id);
     void deleteByOwner(UserEntity owner);
+
 }
 

@@ -70,4 +70,5 @@ public class UserServiceImpl implements UserService {
     public void deleteUserByEmail(String email) {
         repository.deleteByEmail(email);
     }
+
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("demo/task")
 @RequiredArgsConstructor
 public class TaskTestController {
+
     private final TaskServiceImpl service;
 
     @GetMapping("/id/{id}")
@@ -29,6 +30,7 @@ public class TaskTestController {
         service.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
     @PostMapping("create")
     public ResponseEntity<TaskEntity> create(@RequestBody TaskEntity entity){
         service.create(entity);
