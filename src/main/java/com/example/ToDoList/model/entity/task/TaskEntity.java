@@ -21,7 +21,7 @@ public class TaskEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private StatusTask status;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity owner;
 

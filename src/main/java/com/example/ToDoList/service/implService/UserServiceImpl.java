@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
@@ -60,14 +61,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
     public void deleteUserById(Integer id) {
+        if (!repository.existsById(id)){
+            throw new UserNotFoundException("User with id " + id + "Not Found");
+        }
         repository.deleteById(id);
     }
 
+
     @Override
-    @Transactional
     public void deleteUserByEmail(String email) {
+        if (!repository.existsByEmail(email)){
+            throw new UserNotFoundException("User with email" + email + "Not Found");
+        }
         repository.deleteByEmail(email);
     }
 

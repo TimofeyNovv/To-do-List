@@ -34,13 +34,21 @@ public class UserTestController {
 
     @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Integer id) {
-        service.deleteUserById(id);
+        try {
+            service.deleteUserById(id);
+        } catch (UserNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/delete/email/{email}")
     public ResponseEntity<?> deleteByEmail(@PathVariable String email) {
-        service.deleteUserByEmail(email);
+        try {
+            service.deleteUserByEmail(email);
+        } catch (UserNotFoundException e){
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.noContent().build();
     }
 }

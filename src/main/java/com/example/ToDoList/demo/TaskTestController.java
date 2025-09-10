@@ -25,13 +25,19 @@ public class TaskTestController {
         }
     }
 
-    @DeleteMapping("delete/{id}")
+
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<TaskEntity> delById(@PathVariable Integer id){
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            service.deleteById(id);
+            return ResponseEntity.noContent().build();
+        }
+        catch (TaskNotFoundException  e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @PostMapping("create")
+    @PostMapping("/create")
     public ResponseEntity<TaskEntity> create(@RequestBody TaskEntity entity){
         service.create(entity);
         return ResponseEntity.noContent().build();
