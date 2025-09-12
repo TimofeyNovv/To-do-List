@@ -16,6 +16,15 @@ public class UserTestController {
 
     private final UserServiceImpl service;
 
+
+    @Operation(
+            summary = "Получить пользователя по его email",
+            description = "Возвращает пользователя по указанному email",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Задача найдена"),
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена")
+            }
+    )
     @GetMapping("/email/{email}")
     public ResponseEntity<UserResponseDto> getByEmail(@PathVariable String email) {
         try {
@@ -26,8 +35,8 @@ public class UserTestController {
     }
 
     @Operation(
-            summary = "Получить задачу по ID",
-            description = "Возвращает задачу по указанному идентификатору",
+            summary = "Получить пользователя по его id",
+            description = "Возвращает пользователя по указанному id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Задача найдена"),
                     @ApiResponse(responseCode = "404", description = "Задача не найдена")
@@ -42,6 +51,14 @@ public class UserTestController {
         }
     }
 
+    @Operation(
+            summary = "Удалить пользователя по его id",
+            description = "Удаляет пользователя по его id",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Задача найдена"),
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена")
+            }
+    )
     @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Integer id) {
         try {
@@ -52,6 +69,14 @@ public class UserTestController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(
+            summary = "Удалить пользователя по его email",
+            description = "Удаляет пользователя по его email",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Задача найдена"),
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена")
+            }
+    )
     @DeleteMapping("/delete/email/{email}")
     public ResponseEntity<?> deleteByEmail(@PathVariable String email) {
         try {
