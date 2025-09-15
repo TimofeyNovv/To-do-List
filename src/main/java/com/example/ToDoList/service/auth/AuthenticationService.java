@@ -3,15 +3,18 @@ package com.example.ToDoList.service.auth;
 import com.example.ToDoList.dto.auth.AuthenticationRequest;
 import com.example.ToDoList.dto.auth.AuthenticationResponse;
 import com.example.ToDoList.dto.auth.RegisterRequest;
+import com.example.ToDoList.exception.UserAlreadyExistsException;
 import com.example.ToDoList.model.entity.user.Role;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.repository.UserRepository;
 import com.example.ToDoList.service.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor
@@ -24,10 +27,13 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new UserAlreadyExistsException("Пользователь с email " + request.getEmail() + " уже сущетвует");
+        }
         var user = UserEntity.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .role(Role.USER)
+                .role(request.getRole())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         userRepository.save(user);
