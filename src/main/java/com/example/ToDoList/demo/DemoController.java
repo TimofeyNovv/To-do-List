@@ -2,6 +2,7 @@ package com.example.ToDoList.demo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,8 @@ public class DemoController {
 
     @Operation(
             summary = "текст work!",
-            description = "созданно для проверки работы аунтентифекации"
+            description = "созданно для проверки работы аунтентифекации",
+            security = @SecurityRequirement(name = "bearerAuth")
     )
     @GetMapping
     public ResponseEntity<String> seyHello(){
