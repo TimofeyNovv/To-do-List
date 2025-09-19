@@ -50,10 +50,21 @@ public class AuthenticationController {
 
     @Operation(
             summary = "аунтетификация пользователя",
-            description = "Возвразщает jwt токены, для достапа к api"
+            description = "Возвразщает jwt токены, для достапа к api",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Успешная аунтентификация"),
+                    @ApiResponse(responseCode = "400", description = "Невалидные данные"),
+            }
     )
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authentication(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> authentication(
+            @Valid
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Учетные данные пользователя"
+            )
+            @RequestBody AuthenticationRequest request
+    ) {
+
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
 }
