@@ -1,6 +1,7 @@
 package com.example.ToDoList.service;
 
-import com.example.ToDoList.dto.TaskResponseDto;
+import com.example.ToDoList.dto.task.TaskDescUpdateDto;
+import com.example.ToDoList.dto.task.TaskResponseDto;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
 
@@ -14,4 +15,5 @@ public interface TaskService {
 
     void create(TaskEntity entity);
 
+    void updateDescription(TaskDescUpdateDto request);
 }

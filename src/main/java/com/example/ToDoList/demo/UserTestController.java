@@ -1,11 +1,10 @@
 package com.example.ToDoList.demo;
 
-import com.example.ToDoList.dto.UserResponseDto;
+import com.example.ToDoList.dto.user.UserResponseDto;
 import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.service.implService.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

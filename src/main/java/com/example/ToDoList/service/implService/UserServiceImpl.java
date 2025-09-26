@@ -1,7 +1,7 @@
 package com.example.ToDoList.service.implService;
 
-import com.example.ToDoList.dto.TaskSmallInfoDto;
-import com.example.ToDoList.dto.UserResponseDto;
+import com.example.ToDoList.dto.task.TaskSmallInfoDto;
+import com.example.ToDoList.dto.user.UserResponseDto;
 import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.repository.UserRepository;

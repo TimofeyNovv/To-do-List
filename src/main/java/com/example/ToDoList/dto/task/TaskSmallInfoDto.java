@@ -1,4 +1,4 @@
-package com.example.ToDoList.dto;
+package com.example.ToDoList.dto.task;
 
 import com.example.ToDoList.model.entity.task.StatusTask;
 import lombok.Builder;

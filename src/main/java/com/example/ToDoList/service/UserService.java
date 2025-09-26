@@ -1,6 +1,6 @@
 package com.example.ToDoList.service;
 
-import com.example.ToDoList.dto.UserResponseDto;
+import com.example.ToDoList.dto.user.UserResponseDto;
 
 public interface UserService {
 

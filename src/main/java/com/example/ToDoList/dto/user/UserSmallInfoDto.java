@@ -1,4 +1,4 @@
-package com.example.ToDoList.dto;
+package com.example.ToDoList.dto.user;
 
 import com.example.ToDoList.model.entity.user.Role;
 import lombok.Builder;

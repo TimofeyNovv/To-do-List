@@ -1,12 +1,12 @@
 package com.example.ToDoList.demo;
 
-import com.example.ToDoList.dto.TaskResponseDto;
+import com.example.ToDoList.dto.task.TaskDescUpdateDto;
+import com.example.ToDoList.dto.task.TaskResponseDto;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.service.implService.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +64,16 @@ public class TaskTestController {
     @PostMapping("/create")
     public ResponseEntity<TaskEntity> create(@RequestBody TaskEntity entity){
         service.create(entity);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(
+            summary = "Обновить описание задачи",
+            description = "Обновляет описнаие задачи"
+    )
+    @PatchMapping("/update/desc")
+    public ResponseEntity<TaskEntity> updateDescription(@RequestBody TaskDescUpdateDto request){
+        service.updateDescription(request);
         return ResponseEntity.noContent().build();
     }
 }

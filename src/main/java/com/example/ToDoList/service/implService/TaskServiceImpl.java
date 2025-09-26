@@ -1,7 +1,8 @@
 package com.example.ToDoList.service.implService;
 
-import com.example.ToDoList.dto.TaskResponseDto;
-import com.example.ToDoList.dto.UserSmallInfoDto;
+import com.example.ToDoList.dto.task.TaskDescUpdateDto;
+import com.example.ToDoList.dto.task.TaskResponseDto;
+import com.example.ToDoList.dto.user.UserSmallInfoDto;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
@@ -81,8 +82,17 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public void create(TaskEntity entity) {
-        entity.setOwner(userRepository.getById(1));
         repository.save(entity);
+    }
+
+    @Override
+    public void updateDescription(TaskDescUpdateDto request) {
+        Long taskId = request.getTaskId();
+        TaskEntity task = repository.findById(taskId)
+                .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found"));
+
+        task.setDescription(request.getNewDescription());
+        repository.save(task);
     }
 
 }

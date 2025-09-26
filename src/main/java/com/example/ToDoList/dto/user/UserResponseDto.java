@@ -1,5 +1,6 @@
-package com.example.ToDoList.dto;
+package com.example.ToDoList.dto.user;
 
+import com.example.ToDoList.dto.task.TaskSmallInfoDto;
 import com.example.ToDoList.model.entity.user.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
