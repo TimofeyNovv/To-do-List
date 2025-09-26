@@ -2,6 +2,7 @@ package com.example.ToDoList.demo;
 
 import com.example.ToDoList.dto.task.TaskDescUpdateDto;
 import com.example.ToDoList.dto.task.TaskResponseDto;
+import com.example.ToDoList.dto.task.TaskStatusUpdateDto;
 import com.example.ToDoList.dto.task.TaskTitleUpdateDto;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
@@ -85,6 +86,16 @@ public class TaskTestController {
     @PatchMapping("update/title")
     public ResponseEntity<TaskEntity> updateTitle(@RequestBody TaskTitleUpdateDto request){
         service.updateTitle(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Operation(
+            summary = "обновить статус задачи",
+            description = "обновляет статус задачи"
+    )
+    @PatchMapping("update/status")
+    public ResponseEntity<TaskEntity> updateStatus(@RequestBody TaskStatusUpdateDto request){
+        service.updateStatus(request);
         return ResponseEntity.noContent().build();
     }
 }

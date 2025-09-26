@@ -2,6 +2,7 @@ package com.example.ToDoList.service.implService;
 
 import com.example.ToDoList.dto.task.TaskDescUpdateDto;
 import com.example.ToDoList.dto.task.TaskResponseDto;
+import com.example.ToDoList.dto.task.TaskStatusUpdateDto;
 import com.example.ToDoList.dto.task.TaskTitleUpdateDto;
 import com.example.ToDoList.dto.user.UserSmallInfoDto;
 import com.example.ToDoList.exception.TaskNotFoundException;
@@ -102,6 +103,15 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity task = repository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found"));
         task.setTitle(request.getNewTitle());
+        repository.save(task);
+    }
+
+    @Override
+    public void updateStatus(TaskStatusUpdateDto request) {
+        Long taskId = request.getTaskId();
+        TaskEntity task = repository.findById(taskId)
+                .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found"));
+        task.setStatus(request.getStatus());
         repository.save(task);
     }
 
