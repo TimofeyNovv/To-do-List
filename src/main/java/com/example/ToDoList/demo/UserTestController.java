@@ -5,6 +5,7 @@ import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.service.implService.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -58,6 +59,7 @@ public class UserTestController {
                     @ApiResponse(responseCode = "200", description = "Задача найдена"),
                     @ApiResponse(responseCode = "404", description = "Задача не найдена")
             }
+            //security = @SecurityRequirement(name = "jwtAuth")
     )
     @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<?> deleteById(@PathVariable Integer id) {

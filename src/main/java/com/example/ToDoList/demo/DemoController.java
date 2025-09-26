@@ -17,7 +17,7 @@ public class DemoController {
     @Operation(
             summary = "текст work!",
             description = "созданно для проверки работы аунтентифекации",
-            security = @SecurityRequirement(name = "bearerAuth")
+            security = @SecurityRequirement(name = "jwtAuth")
     )
     @GetMapping
     public ResponseEntity<String> seyHello(){
