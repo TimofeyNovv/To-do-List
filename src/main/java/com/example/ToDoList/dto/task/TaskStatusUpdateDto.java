@@ -1,6 +1,6 @@
 package com.example.ToDoList.dto.task;
 
-import com.example.ToDoList.model.entity.task.StatusTask;
+import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,5 +8,6 @@ import lombok.Data;
 @Builder
 public class TaskStatusUpdateDto {
     private Long taskId;
-    private StatusTask status;
+    @Pattern(regexp = "DONE|INPROGRESS|DEADLINE|PLANNED|OPEN", message = "Недопустимое значение статуса. Допустимые значения: DONE, INPROGRESS, DEADLINE, PLANNED, OPEN")
+    private String status;
 }

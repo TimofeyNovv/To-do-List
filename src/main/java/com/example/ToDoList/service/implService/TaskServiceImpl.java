@@ -1,17 +1,18 @@
 package com.example.ToDoList.service.implService;
 
-import com.example.ToDoList.dto.task.TaskDescUpdateDto;
-import com.example.ToDoList.dto.task.TaskResponseDto;
-import com.example.ToDoList.dto.task.TaskStatusUpdateDto;
-import com.example.ToDoList.dto.task.TaskTitleUpdateDto;
+import com.example.ToDoList.dto.task.*;
 import com.example.ToDoList.dto.user.UserSmallInfoDto;
+import com.example.ToDoList.exception.TaskAlreadyExistsException;
 import com.example.ToDoList.exception.TaskNotFoundException;
+import com.example.ToDoList.exception.UserNotFoundException;
+import com.example.ToDoList.model.entity.task.StatusTask;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.repository.TaskRepository;
 import com.example.ToDoList.repository.UserRepository;
 import com.example.ToDoList.service.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,7 +84,19 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void create(TaskEntity entity) {
+    public void create(TaskCreateDto request) {
+        System.out.println("Status from request: " + request.getStatus()); // ← что приходит?
+        System.out.println("Status uppercase: " + request.getStatus().toUpperCase());
+        if (repository.existsByTitle(request.getTitle())) {
+            throw new TaskAlreadyExistsException("Task with title " + request.getTitle() + " already exists");
+        }
+        TaskEntity entity = TaskEntity.builder()
+                .title(request.getTitle())
+                .description(request.getDescription())
+                .owner(userRepository.findById(request.getOwnerId())
+                        .orElseThrow(() -> new UserNotFoundException("Owner with id " + request.getOwnerId() + " not found")))
+                .status(StatusTask.valueOf(request.getStatus().toUpperCase()))
+                .build();
         repository.save(entity);
     }
 
@@ -111,7 +124,7 @@ public class TaskServiceImpl implements TaskService {
         Long taskId = request.getTaskId();
         TaskEntity task = repository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found"));
-        task.setStatus(request.getStatus());
+        task.setStatus(StatusTask.valueOf(request.getStatus().toUpperCase()));
         repository.save(task);
     }
 

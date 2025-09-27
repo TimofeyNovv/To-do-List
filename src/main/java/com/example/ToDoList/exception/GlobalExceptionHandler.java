@@ -63,7 +63,19 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUserAlreadyExists(UserAlreadyExistsException ex){
-        ErrorResponse error = new ErrorResponse("USER_ALREASY_EXISTS", ex.getMessage());
+        ErrorResponse error = new ErrorResponse("USER_ALREADY_EXISTS", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(TaskAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleTaskAlreadyExists(TaskAlreadyExistsException ex){
+        ErrorResponse error = new ErrorResponse("TASK_ALREADY_EXISTS", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTaskNotFound(TaskNotFoundException ex){
+        ErrorResponse error = new ErrorResponse("TASK_NOT_FOUND", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }

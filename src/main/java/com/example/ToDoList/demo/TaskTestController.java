@@ -1,14 +1,12 @@
 package com.example.ToDoList.demo;
 
-import com.example.ToDoList.dto.task.TaskDescUpdateDto;
-import com.example.ToDoList.dto.task.TaskResponseDto;
-import com.example.ToDoList.dto.task.TaskStatusUpdateDto;
-import com.example.ToDoList.dto.task.TaskTitleUpdateDto;
+import com.example.ToDoList.dto.task.*;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.service.implService.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +18,7 @@ public class TaskTestController {
 
     private final TaskServiceImpl service;
 
+
     @Operation(
             summary = "получить задачу по её id",
             description = "получает задачу по её id",
@@ -29,11 +28,10 @@ public class TaskTestController {
             }
     )
     @GetMapping("/id/{id}")
-    public ResponseEntity<TaskResponseDto> getById(@PathVariable Integer id){
+    public ResponseEntity<TaskResponseDto> getById(@PathVariable Integer id) {
         try {
             return ResponseEntity.ok(service.findById(id));
-        }
-        catch (TaskNotFoundException  e) {
+        } catch (TaskNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -49,52 +47,74 @@ public class TaskTestController {
             //security = @SecurityRequirement(name = "jwtAuth")
     )
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<TaskEntity> delById(@PathVariable Integer id){
+    public ResponseEntity<TaskEntity> delById(@PathVariable Integer id) {
         try {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
-        }
-        catch (TaskNotFoundException  e) {
+        } catch (TaskNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
+
     @Operation(
             summary = "Создать задачу",
-            description = "Создаёт задачу"
+            description = "Создаёт задачу",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Успешно созданно"),
+                    @ApiResponse(responseCode = "400", description = "Невалидные данные"),
+                    @ApiResponse(responseCode = "409", description = "Задача с таким заголовком уже существует"),
+                    @ApiResponse(responseCode = "404", description = "Владелец с таким id не найден")
+            }
     )
     @PostMapping("/create")
-    public ResponseEntity<TaskEntity> create(@RequestBody TaskEntity entity){
-        service.create(entity);
+    public ResponseEntity<TaskEntity> create(@Valid @RequestBody TaskCreateDto request) {
+        service.create(request);
         return ResponseEntity.noContent().build();
     }
 
+
     @Operation(
             summary = "Обновить описание задачи",
-            description = "Обновляет описнаие задачи"
+            description = "Обновляет описнаие задачи",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
+                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
+            }
     )
     @PatchMapping("/update/desc")
-    public ResponseEntity<TaskEntity> updateDescription(@RequestBody TaskDescUpdateDto request){
+    public ResponseEntity<TaskCreateDto> updateDescription(@RequestBody TaskDescUpdateDto request) {
         service.updateDescription(request);
         return ResponseEntity.noContent().build();
     }
 
+
     @Operation(
             summary = "обновить заголовок задачи",
-            description = "обноволяет заголовок задачи"
+            description = "обноволяет заголовок задачи",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
+                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
+            }
     )
     @PatchMapping("update/title")
-    public ResponseEntity<TaskEntity> updateTitle(@RequestBody TaskTitleUpdateDto request){
+    public ResponseEntity<TaskCreateDto> updateTitle(@RequestBody TaskTitleUpdateDto request) {
         service.updateTitle(request);
         return ResponseEntity.noContent().build();
     }
 
+
     @Operation(
             summary = "обновить статус задачи",
-            description = "обновляет статус задачи"
+            description = "обновляет статус задачи",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
+                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
+                    @ApiResponse(responseCode = "400", description = "Невалидный статус задачи")
+            }
     )
     @PatchMapping("update/status")
-    public ResponseEntity<TaskEntity> updateStatus(@RequestBody TaskStatusUpdateDto request){
+    public ResponseEntity<TaskCreateDto> updateStatus(@Valid @RequestBody TaskStatusUpdateDto request) {
         service.updateStatus(request);
         return ResponseEntity.noContent().build();
     }

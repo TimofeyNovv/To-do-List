@@ -18,5 +18,6 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     void deleteByOwner(UserEntity owner);
 
     boolean existsByOwner(UserEntity owner);
+    boolean existsByTitle(String title);
 }
 
