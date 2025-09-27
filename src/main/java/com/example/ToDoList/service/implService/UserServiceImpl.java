@@ -76,8 +76,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserByEmail(String email) {
-        if (!repository.existsByEmail(email)) {
-            throw new UserNotFoundException("User with email" + email + "Not Found");
+        UserEntity user = repository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User with email " + email + " Not Found"));
+        if (user.getRole() == Role.ADMIN){
+            throw new AdminDeletionException("Cannot delete user with ADMIN authority");
         }
         repository.deleteByEmail(email);
     }
