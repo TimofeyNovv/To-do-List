@@ -45,11 +45,7 @@ public class AuthenticationController {
             )
             @RequestBody RegisterRequest request
     ) {
-        try {
-            return ResponseEntity.ok(authenticationService.register(request));
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        return ResponseEntity.ok(authenticationService.register(request));
     }
 
     @Operation(

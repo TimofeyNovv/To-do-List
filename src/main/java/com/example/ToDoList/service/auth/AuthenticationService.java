@@ -38,7 +38,7 @@ public class AuthenticationService {
         var user = UserEntity.builder()
                 .name(request.getName())
                 .email(request.getEmail())
-                .role(request.getRole())
+                .role(Role.valueOf(request.getRole().toUpperCase()))
                 .password(passwordEncoder.encode(request.getPassword()))
                 .build();
         userRepository.save(user);

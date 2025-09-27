@@ -31,8 +31,9 @@ public class RegisterRequest {
     private String password;
 
     @NotNull(message = "Роль не может отсутствовать")
+    @Pattern(regexp = "USER|ADMIN", message = "Недопустимое значение роли. Допустимые значения: USER, ADMIN")
     @Schema(description = "Роль пользователя", allowableValues = {"USER", "ADMIN"})
-    private Role role;
+    private String role;
 
 
 }

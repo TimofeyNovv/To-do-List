@@ -60,4 +60,10 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse("UNAUTHORIZED", "Authentication required");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExists(UserAlreadyExistsException ex){
+        ErrorResponse error = new ErrorResponse("USER_ALREASY_EXISTS", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
 }
