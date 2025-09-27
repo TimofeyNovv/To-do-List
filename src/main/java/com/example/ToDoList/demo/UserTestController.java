@@ -55,18 +55,17 @@ public class UserTestController {
             summary = "Удалить пользователя по его id",
             description = "Удаляет пользователя по его id",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Задача найдена"),
-                    @ApiResponse(responseCode = "404", description = "Задача не найдена")
+                    @ApiResponse(responseCode = "204", description = "Успешно удаленно"),
+                    @ApiResponse(responseCode = "401", description = "Неавторизован"),
+                    @ApiResponse(responseCode = "403", description = "Нет прав доступа"),
+                    @ApiResponse(responseCode = "409", description = "Нельзя удалить пользователя с правами адмна"),
+                    @ApiResponse(responseCode = "404", description = "Пользователь не найден")
             }
             //security = @SecurityRequirement(name = "jwtAuth")
     )
     @DeleteMapping("/delete/id/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Integer id) {
-        try {
-            service.deleteUserById(id);
-        } catch (UserNotFoundException e){
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
+        service.deleteUserById(id);
         return ResponseEntity.noContent().build();
     }
 
@@ -82,7 +81,7 @@ public class UserTestController {
     public ResponseEntity<?> deleteByEmail(@PathVariable String email) {
         try {
             service.deleteUserByEmail(email);
-        } catch (UserNotFoundException e){
+        } catch (UserNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.noContent().build();

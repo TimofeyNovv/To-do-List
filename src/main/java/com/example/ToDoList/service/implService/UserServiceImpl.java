@@ -2,7 +2,9 @@ package com.example.ToDoList.service.implService;
 
 import com.example.ToDoList.dto.task.TaskSmallInfoDto;
 import com.example.ToDoList.dto.user.UserResponseDto;
+import com.example.ToDoList.exception.AdminDeletionException;
 import com.example.ToDoList.exception.UserNotFoundException;
+import com.example.ToDoList.model.entity.user.Role;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.repository.UserRepository;
 import com.example.ToDoList.service.UserService;
@@ -62,8 +64,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserById(Integer id) {
-        if (!repository.existsById(id)){
-            throw new UserNotFoundException("User with id " + id + "Not Found");
+        UserEntity user = repository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User with id '" + id + "' not found"));
+
+        if (user.getRole() == Role.ADMIN){
+            throw new AdminDeletionException("Cannot delete user with ADMIN authority");
         }
         repository.deleteById(id);
     }
@@ -71,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUserByEmail(String email) {
-        if (!repository.existsByEmail(email)){
+        if (!repository.existsByEmail(email)) {
             throw new UserNotFoundException("User with email" + email + "Not Found");
         }
         repository.deleteByEmail(email);

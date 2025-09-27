@@ -3,7 +3,10 @@ package com.example.ToDoList.service.auth;
 import com.example.ToDoList.dto.auth.AuthenticationRequest;
 import com.example.ToDoList.dto.auth.AuthenticationResponse;
 import com.example.ToDoList.dto.auth.RegisterRequest;
+import com.example.ToDoList.exception.InvalidCredentialsException;
+import com.example.ToDoList.exception.InvalidPasswordException;
 import com.example.ToDoList.exception.UserAlreadyExistsException;
+import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.model.entity.user.Role;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.repository.UserRepository;
@@ -11,7 +14,9 @@ import com.example.ToDoList.service.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -46,17 +51,26 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(user);
+        String email = request.getEmail();
+        if (!userRepository.existsByEmail(email)) {
+            throw new UserNotFoundException("User with email -" + email + " not found");
+        }
 
-        return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
-                .build();
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+            var user = userRepository.findByEmail(email).orElseThrow();
+            var jwtToken = jwtService.generateToken(user);
+
+            return AuthenticationResponse.builder()
+                    .accessToken(jwtToken)
+                    .build();
+        } catch (BadCredentialsException e) {
+            throw new InvalidPasswordException("Invalid password");
+        }
     }
 }

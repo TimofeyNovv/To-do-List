@@ -1,33 +1,63 @@
 package com.example.ToDoList.exception;
 
+import com.example.ToDoList.dto.ErrorResponse;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.security.access.AccessDeniedException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCredentials(InvalidCredentialsException ex) {
+        ErrorResponse error = new ErrorResponse("INVALID_CREDENTIALS", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleInvalidValidation(MethodArgumentNotValidException ex){
+        ErrorResponse error = new ErrorResponse("VALIDATION_ERROR", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
 
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage())
-        );
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    @ExceptionHandler(InvalidPasswordException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidPassword(InvalidPasswordException ex){
+        ErrorResponse error = new ErrorResponse("INVALID_PASSWORD", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<String> handleResponseStatusException(ResponseStatusException ex) {
         return ResponseEntity.status(ex.getStatusCode())
                 .body(ex.getReason());
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(UserNotFoundException ex){
+        ErrorResponse error = new ErrorResponse("USER_NOT_FOUND", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(AdminDeletionException.class)
+    public ResponseEntity<ErrorResponse> handleAdminDeletion(AdminDeletionException ex){
+        ErrorResponse error = new ErrorResponse("ADMIN_DELETION_EX", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied(AdminDeletionException ex){
+        ErrorResponse error = new ErrorResponse("ACCESS_DENIED_EX", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ErrorResponse> handleAuthentication(AuthenticationException ex){
+        ErrorResponse error = new ErrorResponse("UNAUTHORIZED", "Authentication required");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 }
