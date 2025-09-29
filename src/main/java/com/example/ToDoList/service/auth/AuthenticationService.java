@@ -3,7 +3,6 @@ package com.example.ToDoList.service.auth;
 import com.example.ToDoList.dto.auth.AuthenticationRequest;
 import com.example.ToDoList.dto.auth.AuthenticationResponse;
 import com.example.ToDoList.dto.auth.RegisterRequest;
-import com.example.ToDoList.exception.InvalidCredentialsException;
 import com.example.ToDoList.exception.InvalidPasswordException;
 import com.example.ToDoList.exception.UserAlreadyExistsException;
 import com.example.ToDoList.exception.UserNotFoundException;
@@ -12,14 +11,11 @@ import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.repository.UserRepository;
 import com.example.ToDoList.service.security.JwtService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @RequiredArgsConstructor

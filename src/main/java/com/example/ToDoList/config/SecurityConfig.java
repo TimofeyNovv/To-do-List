@@ -34,13 +34,6 @@ public class SecurityConfig {
                                         "/demo/**"
                                 )
                                 .permitAll()
-                                /*.requestMatchers(
-                                        "/demo/user/delete/**",
-                                        "/demo/task/delete/**"
-                                ).hasAuthority("ADMIN")
-                                .requestMatchers("/demo/**")
-                                .authenticated()
-                                 */
                                 .anyRequest()
                                 .authenticated()
                 )

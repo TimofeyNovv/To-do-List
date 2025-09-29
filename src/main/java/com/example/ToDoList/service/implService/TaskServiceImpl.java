@@ -12,7 +12,6 @@ import com.example.ToDoList.repository.TaskRepository;
 import com.example.ToDoList.repository.UserRepository;
 import com.example.ToDoList.service.TaskService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
