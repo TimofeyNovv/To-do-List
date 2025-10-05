@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserResponseDto findByEmail(String email) {
         UserEntity user = repository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User with email -" + email + " not found"));
+                .orElseThrow(() -> new UserNotFoundException("User with email - " + email + " not found"));
 
         return UserResponseDto.builder().name(user.getName())
                 .role(user.getRole())

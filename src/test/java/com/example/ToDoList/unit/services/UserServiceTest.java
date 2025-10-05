@@ -104,6 +104,50 @@ public class UserServiceTest {
 
         assertEquals("User with id - " + 999 + " not found", exception.getMessage());
     }
+
+    //________________________________findByEmailTests______________________________________________
+    @Test
+    void findByEmail_WhenUserExists_ReturnsUserResponseDto(){
+
+        when(userRepository.findByEmail("timn2020@inbox.ru")).thenReturn(Optional.of(testUser));
+
+        UserResponseDto result = userService.findByEmail("timn2020@inbox.ru");
+
+        assertEquals("TimofeyNovv", result.getName());
+        assertEquals("timn2020@inbox.ru", result.getEmail());
+        assertEquals(Role.USER, result.getRole());
+    }
+
+    @Test
+    void findByEmail_WhenUserHasTasks_ReturnsUserWithTasks(){
+
+        when(userRepository.findByEmail("timn2023@gmail.com")).thenReturn(Optional.of(testUserWithTasks));
+
+        UserResponseDto result = userService.findByEmail("timn2023@gmail.com");
+
+        assertEquals("TimofeyNovv2", result.getName());
+        assertEquals("timn2023@gmail.com", result.getEmail());
+        assertEquals(Role.ADMIN, result.getRole());
+
+        assertEquals("Task 1", result.getTasks().get(0).getTitle());
+        assertEquals("Desc 1", result.getTasks().get(0).getDescription());
+        assertEquals(StatusTask.DONE, result.getTasks().get(0).getStatus());
+
+        assertEquals("Task 2", result.getTasks().get(1).getTitle());
+        assertEquals("Desc 2", result.getTasks().get(1).getDescription());
+        assertEquals(StatusTask.DEADLINE, result.getTasks().get(1).getStatus());
+    }
+
+    @Test
+    void findByEmail_WhenUserNotFound_ThrowsUserNotFoundException(){
+        when(userRepository.findByEmail("wrong email")).thenReturn(Optional.empty());
+
+        UserNotFoundException exception = assertThrows(
+                UserNotFoundException.class, () -> userService.findByEmail("wrong email")
+        );
+
+        assertEquals("User with email - " + "wrong email" + " not found", exception.getMessage());
+    }
 }
 
 
