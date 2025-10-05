@@ -70,3 +70,4 @@ public class UserServiceTest {
         assertEquals(Role.USER, result.getRole());
     }
 }
+
