@@ -1,6 +1,7 @@
 package com.example.ToDoList.unit.services;
 
 import com.example.ToDoList.dto.user.UserResponseDto;
+import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.model.entity.task.StatusTask;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.Role;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -37,7 +39,8 @@ public class UserServiceTest {
     private UserEntity testUser;
     private UserEntity testUserWithTasks;
 
-    @BeforeEach//метод выполняется ПЕРЕД КАЖДЫМ тестом
+    @BeforeEach
+//метод выполняется ПЕРЕД КАЖДЫМ тестом
     void setUp() {
         testUser = UserEntity.builder()
                 .name("TimofeyNovv")
@@ -58,8 +61,9 @@ public class UserServiceTest {
                 .build();
     }
 
+    //___________________________________findByIdTests_______________________________________________
     @Test
-    void getUser_WhenValidId(){
+    void findById_WhenUserExists_ReturnsUserResponseDto() {
 
         when(userRepository.findById(1)).thenReturn(Optional.of(testUser));
 
@@ -69,5 +73,37 @@ public class UserServiceTest {
         assertEquals("timn2020@inbox.ru", result.getEmail());
         assertEquals(Role.USER, result.getRole());
     }
+
+    @Test
+    void findById_WhenUserHasTasks_ReturnsUserWithTasks() {
+        when(userRepository.findById(2)).thenReturn(Optional.of(testUserWithTasks));
+
+        UserResponseDto result = userService.findById(2);
+
+        assertEquals("TimofeyNovv2", result.getName());
+        assertEquals("timn2023@gmail.com", result.getEmail());
+        assertEquals(Role.ADMIN, result.getRole());
+
+        assertEquals("Task 1", result.getTasks().get(0).getTitle());
+        assertEquals("Desc 1", result.getTasks().get(0).getDescription());
+        assertEquals(StatusTask.DONE, result.getTasks().get(0).getStatus());
+
+        assertEquals("Task 2", result.getTasks().get(1).getTitle());
+        assertEquals("Desc 2", result.getTasks().get(1).getDescription());
+        assertEquals(StatusTask.DEADLINE, result.getTasks().get(1).getStatus());
+    }
+
+    @Test
+    void findById_WhenUserNotFound_ThrowsUserNotFoundException() {
+
+        when(userRepository.findById(999)).thenReturn(Optional.empty());
+
+        UserNotFoundException exception = assertThrows(
+                UserNotFoundException.class, () -> userService.findById(999)
+        );
+
+        assertEquals("User with id - " + 999 + " not found", exception.getMessage());
+    }
 }
+
 
