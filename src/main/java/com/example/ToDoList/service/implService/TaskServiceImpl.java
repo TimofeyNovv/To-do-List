@@ -15,6 +15,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -48,22 +51,25 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = true)
-    public TaskResponseDto finsByOwner(UserEntity owner) {
-        TaskEntity task = repository.findByOwner(owner)
-                .orElseThrow(() -> new TaskNotFoundException("Task with owner - " + owner + " not found"));
+    public List<TaskResponseDto> findByOwner(UserEntity owner) {
+        List<TaskEntity> tasks = repository.findByOwner(owner);
 
-        UserSmallInfoDto ownerDto = UserSmallInfoDto.builder()
-                .name(owner.getName())
-                .email(owner.getEmail())
-                .role(owner.getRole())
-                .build();
+        if (tasks.isEmpty()) {
+            throw new TaskNotFoundException("No tasks found for owner: " + owner.getId());
+        }
 
-        return TaskResponseDto.builder()
-                .title(task.getTitle())
-                .description(task.getDescription())
-                .status(task.getStatus())
-                .owner(ownerDto)
-                .build();
+        return tasks.stream()
+                .map(task -> TaskResponseDto.builder()
+                        .title(task.getTitle())
+                        .description(task.getDescription())
+                        .status(task.getStatus())
+                        .owner(UserSmallInfoDto.builder()
+                                .name(owner.getName())
+                                .email(owner.getEmail())
+                                .role(owner.getRole())
+                                .build())
+                        .build())
+                .collect(Collectors.toList());
     }
 
     @Override

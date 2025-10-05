@@ -3,10 +3,12 @@ package com.example.ToDoList.service;
 import com.example.ToDoList.dto.task.*;
 import com.example.ToDoList.model.entity.user.UserEntity;
 
+import java.util.List;
+
 public interface TaskService {
 
     TaskResponseDto findById(Integer id);
-    TaskResponseDto finsByOwner(UserEntity owner);
+    List<TaskResponseDto> findByOwner(UserEntity owner);
 
     void deleteById(Integer id);
     void deleteByOwner(UserEntity owner);
