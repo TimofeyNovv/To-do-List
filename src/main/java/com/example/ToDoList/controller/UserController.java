@@ -1,18 +1,20 @@
-package com.example.ToDoList.demo;
+package com.example.ToDoList.controller;
 
 import com.example.ToDoList.dto.user.UserResponseDto;
 import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.service.implService.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/demo/user")
+@RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserTestController {
+@SecurityRequirement(name = "jwtAuth")
+public class UserController {
 
     private final UserServiceImpl service;
 

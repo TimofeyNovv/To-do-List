@@ -1,4 +1,4 @@
-package com.example.ToDoList.demo;
+package com.example.ToDoList.controller;
 
 import com.example.ToDoList.dto.task.*;
 import com.example.ToDoList.exception.TaskNotFoundException;
@@ -6,15 +6,17 @@ import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.service.implService.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("demo/task")
+@RequestMapping("/task")
 @RequiredArgsConstructor
-public class TaskTestController {
+@SecurityRequirement(name = "jwtAuth")
+public class TaskController {
 
     private final TaskServiceImpl service;
 

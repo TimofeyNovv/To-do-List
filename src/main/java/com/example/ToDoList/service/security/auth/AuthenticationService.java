@@ -1,4 +1,4 @@
-package com.example.ToDoList.service.auth;
+package com.example.ToDoList.service.security.auth;
 
 import com.example.ToDoList.dto.auth.AuthenticationRequest;
 import com.example.ToDoList.dto.auth.AuthenticationResponse;
