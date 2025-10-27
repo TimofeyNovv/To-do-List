@@ -4,7 +4,7 @@ import com.example.ToDoList.dto.ErrorResponse;
 import com.example.ToDoList.dto.auth.AuthenticationRequest;
 import com.example.ToDoList.dto.auth.AuthenticationResponse;
 import com.example.ToDoList.dto.auth.RegisterRequest;
-import com.example.ToDoList.service.auth.AuthenticationService;
+import com.example.ToDoList.service.security.auth.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
