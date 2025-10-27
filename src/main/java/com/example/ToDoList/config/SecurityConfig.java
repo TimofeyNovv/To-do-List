@@ -30,11 +30,11 @@ public class SecurityConfig {
                                         "/swagger-ui.html",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
-                                        "/swagger-resources/**",
-                                        "/task/**",
-                                        "/user/**"
+                                        "/swagger-resources/**"
                                 )
                                 .permitAll()
+                                .requestMatchers("/user/delete/**", "/task/delete/**").hasAuthority("ADMIN")
+                                .requestMatchers("/task/**", "/user/**").authenticated()
                                 .anyRequest()
                                 .authenticated()
                 )
