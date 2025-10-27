@@ -31,6 +31,8 @@ public class TaskServiceTest {
 
     private TaskEntity testTask;
 
+    private TaskEntity testTask2;
+
     private UserEntity user;
 
     @BeforeEach
@@ -49,7 +51,14 @@ public class TaskServiceTest {
                 .owner(user)
                 .build();
 
-        user.setTasks(List.of(testTask));
+        testTask2 = TaskEntity.builder()
+                .title("Titl2")
+                .description("Desc2")
+                .status(StatusTask.DEADLINE)
+                .owner(user)
+                .build();
+
+        user.setTasks(List.of(testTask, testTask2));
     }
 
     //___________________________________findByIdTests________________________________
@@ -80,5 +89,24 @@ public class TaskServiceTest {
         assertEquals("Task with id - " + 999 + " not found", exception.getMessage());
     }
 
+    //__________________________________findByOwer__________________________________________
+    @Test
+    void findByOwner_WhenTasksExists_ReturnsTaskResponseDto(){
+        List<TaskEntity> tasks = List.of(testTask, testTask2);
+        when(repository.findByOwner(user)).thenReturn(tasks);
+
+        List<TaskResponseDto> result = taskService.findByOwner(user);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+
+        assertEquals("Titl1", result.get(0).getTitle());
+        assertEquals("Desc1", result.get(0).getDescription());
+        assertEquals(StatusTask.DONE, result.get(0).getStatus());
+
+        assertEquals("Titl2", result.get(1).getTitle());
+        assertEquals("Desc2", result.get(1).getDescription());
+        assertEquals(StatusTask.DEADLINE, result.get(1).getStatus());
+    }
 
 }
