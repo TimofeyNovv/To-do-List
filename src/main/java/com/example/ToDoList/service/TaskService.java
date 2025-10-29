@@ -13,7 +13,7 @@ public interface TaskService {
     void deleteById(Integer id, UserEntity currentUser);
     void deleteByOwner(UserEntity owner);
 
-    void create(TaskCreateDto request);
+    void create(TaskCreateDto request, UserEntity currentUser);
 
     void updateDescription(TaskDescUpdateDto request);
     void updateTitle(TaskTitleUpdateDto request);

@@ -22,7 +22,4 @@ public class TaskCreateDto {
     @NotNull(message = "Статус не может отсутствовать")
     @Pattern(regexp = "DONE|INPROGRESS|DEADLINE|PLANNED|OPEN", message = "Недопустимое значение статуса. Допустимые значения: DONE, INPROGRESS, DEADLINE, PLANNED, OPEN")
     private String status;
-
-    @NotNull(message = "Владелец не может отсутствовать")
-    private Integer ownerId;
 }

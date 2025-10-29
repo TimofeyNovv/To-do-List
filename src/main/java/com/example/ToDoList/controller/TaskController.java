@@ -49,8 +49,8 @@ public class TaskController {
     )
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<TaskEntity> delById(@AuthenticationPrincipal UserEntity user, @PathVariable Integer id) {
-            service.deleteById(id, user);
-            return ResponseEntity.noContent().build();
+        service.deleteById(id,user);
+        return ResponseEntity.noContent().build();
     }
 
 
@@ -65,8 +65,8 @@ public class TaskController {
             }
     )
     @PostMapping("/create")
-    public ResponseEntity<TaskEntity> create(@Valid @RequestBody TaskCreateDto request) {
-        service.create(request);
+    public ResponseEntity<TaskEntity> create(@AuthenticationPrincipal UserEntity currentUser, @Valid @RequestBody TaskCreateDto request) {
+        service.create(request, currentUser);
         return ResponseEntity.noContent().build();
     }
 

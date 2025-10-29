@@ -34,7 +34,7 @@ public class TaskServiceImpl implements TaskService {
         TaskEntity task = repository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id - " + id + " not found"));
 
-        if (!currentUser.getEmail().equals(task.getOwner().getEmail())){
+        if (!currentUser.getEmail().equals(task.getOwner().getEmail())) {
             throw new NoAccessException("User with email - " + currentUser.getEmail() + "does not have access rights to this task");
         }
 
@@ -79,7 +79,7 @@ public class TaskServiceImpl implements TaskService {
     public void deleteById(Integer id, UserEntity currentUser) {
         TaskEntity task = repository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + id + " not found"));
-        if (!currentUser.getEmail().equals(task.getOwner().getEmail())){
+        if (!currentUser.getEmail().equals(task.getOwner().getEmail())) {
             throw new NoAccessException("User with email - " + currentUser.getEmail() + "does not have access rights to this task");
         }
         repository.deleteById(id);
@@ -94,17 +94,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void create(TaskCreateDto request) {
-        System.out.println("Status from request: " + request.getStatus()); // ← что приходит?
-        System.out.println("Status uppercase: " + request.getStatus().toUpperCase());
-        if (repository.existsByTitle(request.getTitle())) {
-            throw new TaskAlreadyExistsException("Task with title " + request.getTitle() + " already exists");
-        }
+    public void create(TaskCreateDto request, UserEntity currentUser) {
         TaskEntity entity = TaskEntity.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
-                .owner(userRepository.findById(request.getOwnerId())
-                        .orElseThrow(() -> new UserNotFoundException("Owner with id " + request.getOwnerId() + " not found")))
+                .owner(currentUser)
                 .status(StatusTask.valueOf(request.getStatus().toUpperCase()))
                 .build();
         repository.save(entity);
