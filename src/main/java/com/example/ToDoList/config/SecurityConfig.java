@@ -33,7 +33,7 @@ public class SecurityConfig {
                                         "/swagger-resources/**"
                                 )
                                 .permitAll()
-                                .requestMatchers("/user/delete/**", "/task/delete/**").hasAuthority("ADMIN")
+                                .requestMatchers("/user/delete/**", "/user/id/**", "user/email/**"/*, "/task/delete/**"*/).hasAuthority("ADMIN")
                                 .requestMatchers("/task/**", "/user/**").authenticated()
                                 .anyRequest()
                                 .authenticated()
