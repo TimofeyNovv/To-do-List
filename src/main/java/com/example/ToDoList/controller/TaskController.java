@@ -48,13 +48,9 @@ public class TaskController {
             }
     )
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<TaskEntity> delById(@PathVariable Integer id) {
-        try {
-            service.deleteById(id);
+    public ResponseEntity<TaskEntity> delById(@AuthenticationPrincipal UserEntity user, @PathVariable Integer id) {
+            service.deleteById(id, user);
             return ResponseEntity.noContent().build();
-        } catch (TaskNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
 

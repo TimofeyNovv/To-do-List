@@ -10,7 +10,7 @@ public interface TaskService {
     TaskResponseDto findById(Integer id, UserEntity currentUser);
     List<TaskResponseDto> findByOwner(UserEntity owner);
 
-    void deleteById(Integer id);
+    void deleteById(Integer id, UserEntity currentUser);
     void deleteByOwner(UserEntity owner);
 
     void create(TaskCreateDto request);

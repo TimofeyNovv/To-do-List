@@ -76,9 +76,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        if (!repository.existsById(Long.valueOf(id))) {
-            throw new TaskNotFoundException("Task with id " + id + " not found");
+    public void deleteById(Integer id, UserEntity currentUser) {
+        TaskEntity task = repository.findById(id)
+                .orElseThrow(() -> new TaskNotFoundException("Task with id " + id + " not found"));
+        if (!currentUser.getEmail().equals(task.getOwner().getEmail())){
+            throw new NoAccessException("User with email - " + currentUser.getEmail() + "does not have access rights to this task");
         }
         repository.deleteById(id);
     }
