@@ -31,8 +31,8 @@ public class AuthenticationController {
             description = "Создаёт нового пользователя  и возвращает jwt токены",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Успешная регистрация"),
-                    @ApiResponse(responseCode = "400", description = "Невалидные данные"),
-                    @ApiResponse(responseCode = "409", description = "Пользователь уже существует")
+                    @ApiResponse(responseCode = "400", description = "Невалидные данные", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "409", description = "Пользователь уже существует", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @PostMapping("/register")

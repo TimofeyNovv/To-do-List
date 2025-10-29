@@ -1,9 +1,12 @@
 package com.example.ToDoList.controller;
 
+import com.example.ToDoList.dto.ErrorResponse;
 import com.example.ToDoList.dto.user.UserResponseDto;
 import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.service.implService.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -26,7 +29,7 @@ public class UserController {
             description = "Возвращает пользователя по указанному email",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Задача найдена"),
-                    @ApiResponse(responseCode = "404", description = "Задача не найдена")
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
     )
     @GetMapping("/email/{email}")
@@ -43,7 +46,7 @@ public class UserController {
             description = "Возвращает пользователя по указанному id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Задача найдена"),
-                    @ApiResponse(responseCode = "404", description = "Задача не найдена")
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @GetMapping("/id/{id}")
@@ -61,10 +64,9 @@ public class UserController {
             description = "Удаляет пользователя по его id",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Успешно удаленно"),
-                    @ApiResponse(responseCode = "409", description = "Нельзя удалить пользователя с правами адмна"),
-                    @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+                    @ApiResponse(responseCode = "409", description = "Нельзя удалить пользователя с правами админа", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "404", description = "Пользователь не найден", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
-            //security = @SecurityRequirement(name = "jwtAuth")
     )
     @DeleteMapping("/delete/id/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
@@ -78,8 +80,8 @@ public class UserController {
             description = "Удаляет пользователя по его email",
             responses = {
                     @ApiResponse(responseCode = "204", description = "Успешно удаленно"),
-                    @ApiResponse(responseCode = "409", description = "Нельзя удалить пользователя с правами адмна"),
-                    @ApiResponse(responseCode = "404", description = "Пользователь не найден")
+                    @ApiResponse(responseCode = "409", description = "Нельзя удалить пользователя с правами админа", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "404", description = "Пользователь не найден", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @DeleteMapping("/delete/email/{email}")

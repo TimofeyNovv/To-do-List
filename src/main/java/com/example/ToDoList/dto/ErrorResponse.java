@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Ответ с информацией для ошибки")
 public class ErrorResponse {
     @Schema(description = "Код ошибки")
     private String errorCode;

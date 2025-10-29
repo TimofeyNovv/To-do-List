@@ -1,12 +1,16 @@
 package com.example.ToDoList.controller;
 
+import com.example.ToDoList.dto.ErrorResponse;
 import com.example.ToDoList.dto.task.*;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.service.implService.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -29,9 +33,9 @@ public class TaskController {
             summary = "получить задачу по её id",
             description = "получает задачу по её id",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Задача найдена"),
-                    @ApiResponse(responseCode = "404", description = "Задача не найдена"),
-                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
+                    @ApiResponse(responseCode = "200", description = "Задача найдена",content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @GetMapping("/id/{id}")
@@ -44,9 +48,9 @@ public class TaskController {
             summary = "Удалить задачу по id",
             description = "Удаляет задачу по её id",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Задача найдена"),
-                    @ApiResponse(responseCode = "404", description = "Задача не найдена"),
-                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
+                    @ApiResponse(responseCode = "200", description = "Задача удалена",content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @DeleteMapping("/delete/{id}")
@@ -58,11 +62,13 @@ public class TaskController {
 
     @Operation(
             summary = "Создать задачу",
-            description = "Создаёт задачу",
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Успешно создано"),
-                    @ApiResponse(responseCode = "400", description = "Невалидные данные"),
-                    @ApiResponse(responseCode = "404", description = "Владелец с таким id не найден"),
+            description = "Создаёт задачу"
+    )
+    @ApiResponses(
+            {
+                    @ApiResponse(responseCode = "200", description = "Успешно создано",content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "400", description = "Невалидные данные", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "404", description = "Владелец с таким id не найден", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @PostMapping("/create")
@@ -76,9 +82,9 @@ public class TaskController {
             summary = "Обновить описание задачи",
             description = "Обновляет описание задачи",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
-                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
-                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
+                    @ApiResponse(responseCode = "200", description = "Успешно обновлено",content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @PatchMapping("/update/desc")
@@ -92,9 +98,9 @@ public class TaskController {
             summary = "обновить заголовок задачи",
             description = "обноволяет заголовок задачи",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
-                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
-                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
+                    @ApiResponse(responseCode = "200", description = "Успешно обновлено",content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @PatchMapping("update/title")
@@ -108,10 +114,10 @@ public class TaskController {
             summary = "обновить статус задачи",
             description = "обновляет статус задачи",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
-                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
-                    @ApiResponse(responseCode = "400", description = "Невалидный статус задачи"),
-                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
+                    @ApiResponse(responseCode = "200", description = "Успешно обновлено",content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Невалидный статус задачи", content = @Content(schema = @Schema (implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя", content = @Content(schema = @Schema (implementation = ErrorResponse.class)))
             }
     )
     @PatchMapping("update/status")

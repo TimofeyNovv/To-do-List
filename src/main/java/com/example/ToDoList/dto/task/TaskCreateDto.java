@@ -1,6 +1,7 @@
 package com.example.ToDoList.dto.task;
 
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "DTO для создания задачи")
 public class TaskCreateDto {
 
     @NotBlank(message = "Заголовок не может быть пустым")

@@ -2,6 +2,7 @@ package com.example.ToDoList.dto.task;
 
 import com.example.ToDoList.dto.user.UserSmallInfoDto;
 import com.example.ToDoList.model.entity.task.StatusTask;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Schema(description = "DTO для краткой информацией о задаче")
 public class TaskResponseDto {
 
     private String title;
