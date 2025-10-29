@@ -30,7 +30,8 @@ public class TaskController {
             description = "получает задачу по её id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Задача найдена"),
-                    @ApiResponse(responseCode = "404", description = "Задача не найдена")
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена"),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
             }
     )
     @GetMapping("/id/{id}")
@@ -44,7 +45,8 @@ public class TaskController {
             description = "Удаляет задачу по её id",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Задача найдена"),
-                    @ApiResponse(responseCode = "404", description = "Задача не найдена")
+                    @ApiResponse(responseCode = "404", description = "Задача не найдена"),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
             }
     )
     @DeleteMapping("/delete/{id}")
@@ -60,8 +62,7 @@ public class TaskController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Успешно создано"),
                     @ApiResponse(responseCode = "400", description = "Невалидные данные"),
-                    @ApiResponse(responseCode = "409", description = "Задача с таким заголовком уже существует"),
-                    @ApiResponse(responseCode = "404", description = "Владелец с таким id не найден")
+                    @ApiResponse(responseCode = "404", description = "Владелец с таким id не найден"),
             }
     )
     @PostMapping("/create")
@@ -77,6 +78,7 @@ public class TaskController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
                     @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
             }
     )
     @PatchMapping("/update/desc")
@@ -92,6 +94,7 @@ public class TaskController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
                     @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
             }
     )
     @PatchMapping("update/title")
@@ -107,7 +110,8 @@ public class TaskController {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
                     @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
-                    @ApiResponse(responseCode = "400", description = "Невалидный статус задачи")
+                    @ApiResponse(responseCode = "400", description = "Невалидный статус задачи"),
+                    @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя")
             }
     )
     @PatchMapping("update/status")
