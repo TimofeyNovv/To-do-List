@@ -3,6 +3,7 @@ package com.example.ToDoList.controller;
 import com.example.ToDoList.dto.task.*;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
+import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.service.implService.TaskServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,12 +34,8 @@ public class TaskController {
             }
     )
     @GetMapping("/id/{id}")
-    public ResponseEntity<TaskResponseDto> getById(@PathVariable Integer id) {
-        try {
-            return ResponseEntity.ok(service.findById(id));
-        } catch (TaskNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<TaskResponseDto> getById(@AuthenticationPrincipal UserEntity currentUser, @PathVariable Integer id) {
+        return ResponseEntity.ok(service.findById(id));
     }
 
 
@@ -48,7 +46,6 @@ public class TaskController {
                     @ApiResponse(responseCode = "200", description = "Задача найдена"),
                     @ApiResponse(responseCode = "404", description = "Задача не найдена")
             }
-            //security = @SecurityRequirement(name = "jwtAuth")
     )
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<TaskEntity> delById(@PathVariable Integer id) {
