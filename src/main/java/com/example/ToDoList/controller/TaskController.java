@@ -58,7 +58,7 @@ public class TaskController {
             summary = "Создать задачу",
             description = "Создаёт задачу",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Успешно созданно"),
+                    @ApiResponse(responseCode = "200", description = "Успешно создано"),
                     @ApiResponse(responseCode = "400", description = "Невалидные данные"),
                     @ApiResponse(responseCode = "409", description = "Задача с таким заголовком уже существует"),
                     @ApiResponse(responseCode = "404", description = "Владелец с таким id не найден")
@@ -73,15 +73,15 @@ public class TaskController {
 
     @Operation(
             summary = "Обновить описание задачи",
-            description = "Обновляет описнаие задачи",
+            description = "Обновляет описание задачи",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Успешно обновленно"),
                     @ApiResponse(responseCode = "404", description = "Задача с таким id не найдена"),
             }
     )
     @PatchMapping("/update/desc")
-    public ResponseEntity<TaskCreateDto> updateDescription(@RequestBody TaskDescUpdateDto request) {
-        service.updateDescription(request);
+    public ResponseEntity<TaskCreateDto> updateDescription(@AuthenticationPrincipal UserEntity currentUser, @RequestBody TaskDescUpdateDto request) {
+        service.updateDescription(request, currentUser);
         return ResponseEntity.noContent().build();
     }
 
@@ -95,8 +95,8 @@ public class TaskController {
             }
     )
     @PatchMapping("update/title")
-    public ResponseEntity<TaskCreateDto> updateTitle(@RequestBody TaskTitleUpdateDto request) {
-        service.updateTitle(request);
+    public ResponseEntity<TaskCreateDto> updateTitle(@AuthenticationPrincipal UserEntity currentUser, @RequestBody TaskTitleUpdateDto request) {
+        service.updateTitle(request, currentUser);
         return ResponseEntity.noContent().build();
     }
 
@@ -111,8 +111,8 @@ public class TaskController {
             }
     )
     @PatchMapping("update/status")
-    public ResponseEntity<TaskCreateDto> updateStatus(@Valid @RequestBody TaskStatusUpdateDto request) {
-        service.updateStatus(request);
+    public ResponseEntity<TaskCreateDto> updateStatus(@AuthenticationPrincipal UserEntity currentUser, @Valid @RequestBody TaskStatusUpdateDto request) {
+        service.updateStatus(request, currentUser);
         return ResponseEntity.noContent().build();
     }
 }

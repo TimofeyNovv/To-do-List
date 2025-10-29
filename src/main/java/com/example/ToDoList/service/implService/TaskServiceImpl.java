@@ -105,29 +105,38 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public void updateDescription(TaskDescUpdateDto request) {
+    public void updateDescription(TaskDescUpdateDto request, UserEntity currentUser) {
         Long taskId = request.getTaskId();
         TaskEntity task = repository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found"));
 
+        if (!currentUser.getEmail().equals(task.getOwner().getEmail())){
+            throw new NoAccessException("User with email - " + currentUser.getEmail() + "does not have access rights to this task");
+        }
         task.setDescription(request.getNewDescription());
         repository.save(task);
     }
 
     @Override
-    public void updateTitle(TaskTitleUpdateDto request) {
+    public void updateTitle(TaskTitleUpdateDto request, UserEntity currentUser) {
         Long taskId = request.getTaskId();
         TaskEntity task = repository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found"));
+        if (!currentUser.getEmail().equals(task.getOwner().getEmail())){
+            throw new NoAccessException("User with email - " + currentUser.getEmail() + "does not have access rights to this task");
+        }
         task.setTitle(request.getNewTitle());
         repository.save(task);
     }
 
     @Override
-    public void updateStatus(TaskStatusUpdateDto request) {
+    public void updateStatus(TaskStatusUpdateDto request, UserEntity currentUser) {
         Long taskId = request.getTaskId();
         TaskEntity task = repository.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id " + taskId + " not found"));
+        if (!currentUser.getEmail().equals(task.getOwner().getEmail())){
+            throw new NoAccessException("User with email - " + currentUser.getEmail() + "does not have access rights to this task");
+        }
         task.setStatus(StatusTask.valueOf(request.getStatus().toUpperCase()));
         repository.save(task);
     }

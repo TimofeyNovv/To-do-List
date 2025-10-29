@@ -15,7 +15,7 @@ public interface TaskService {
 
     void create(TaskCreateDto request, UserEntity currentUser);
 
-    void updateDescription(TaskDescUpdateDto request);
-    void updateTitle(TaskTitleUpdateDto request);
-    void updateStatus(TaskStatusUpdateDto request);
+    void updateDescription(TaskDescUpdateDto request, UserEntity currentUser);
+    void updateTitle(TaskTitleUpdateDto request, UserEntity currentUser);
+    void updateStatus(TaskStatusUpdateDto request, UserEntity currentUser);
 }
