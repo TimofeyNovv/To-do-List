@@ -35,7 +35,7 @@ public class TaskController {
     )
     @GetMapping("/id/{id}")
     public ResponseEntity<TaskResponseDto> getById(@AuthenticationPrincipal UserEntity currentUser, @PathVariable Integer id) {
-        return ResponseEntity.ok(service.findById(id));
+        return ResponseEntity.ok(service.findById(id, currentUser));
     }
 
 

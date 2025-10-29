@@ -2,6 +2,7 @@ package com.example.ToDoList.service.implService;
 
 import com.example.ToDoList.dto.task.*;
 import com.example.ToDoList.dto.user.UserSmallInfoDto;
+import com.example.ToDoList.exception.NoAccessException;
 import com.example.ToDoList.exception.TaskAlreadyExistsException;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.exception.UserNotFoundException;
@@ -29,16 +30,18 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = true)
-    public TaskResponseDto findById(Integer id) {
+    public TaskResponseDto findById(Integer id, UserEntity currentUser) {
         TaskEntity task = repository.findById(id)
                 .orElseThrow(() -> new TaskNotFoundException("Task with id - " + id + " not found"));
 
+        if (!currentUser.getEmail().equals(task.getOwner().getEmail())){
+            throw new NoAccessException("User with email - " + currentUser.getEmail() + "does not have access rights to this task");
+        }
 
-        UserEntity ownerEntity = task.getOwner();
         UserSmallInfoDto owner = UserSmallInfoDto.builder()
-                .name(ownerEntity.getName())
-                .email(ownerEntity.getEmail())
-                .role(ownerEntity.getRole())
+                .name(currentUser.getName())
+                .email(currentUser.getEmail())
+                .role(currentUser.getRole())
                 .build();
 
         return TaskResponseDto.builder()

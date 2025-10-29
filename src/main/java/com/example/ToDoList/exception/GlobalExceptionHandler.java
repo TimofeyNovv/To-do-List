@@ -78,4 +78,10 @@ public class GlobalExceptionHandler {
         ErrorResponse error = new ErrorResponse("TASK_NOT_FOUND", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
+
+    @ExceptionHandler(NoAccessException.class)
+    public ResponseEntity<ErrorResponse> handleNoAccess(NoAccessException ex){
+        ErrorResponse error = new ErrorResponse("ACCESS_DENIED", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+    }
 }

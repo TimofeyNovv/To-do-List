@@ -66,7 +66,7 @@ public class TaskServiceTest {
     void findById_WhenTaskExists_ReturnsTaskResponseDto(){
         when(repository.findById(1)).thenReturn(Optional.of(testTask));
 
-        TaskResponseDto result = taskService.findById(1);
+        TaskResponseDto result = taskService.findById(1, user);
 
         assertEquals("Titl1", result.getTitle());
         assertEquals("Desc1", result.getDescription());
@@ -83,7 +83,7 @@ public class TaskServiceTest {
         when(repository.findById(999)).thenReturn(Optional.empty());
 
         TaskNotFoundException exception = assertThrows(
-                TaskNotFoundException.class, () -> taskService.findById(999)
+                TaskNotFoundException.class, () -> taskService.findById(999, user)
         );
 
         assertEquals("Task with id - " + 999 + " not found", exception.getMessage());
