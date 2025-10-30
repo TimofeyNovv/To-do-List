@@ -16,8 +16,9 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${SECRET_KEY}")
-    private String SECRET_KEY;
+
+    //@Value("${SECRET_KEY}")
+    private String SECRET_KEY = "X5lyDOcMZWUNsfqCmnvyzu52r41/9EEdlX+7Lk15UdTSY5vIo4YvxVVmD02RHUfzYARJrad8S4XHsnRd8tD9/v2FfGUbBoyMJEoYEYxxpPWB0gJfuziWiZq92wpxOV9eirhEBdEfXQgBNnEd9DqgnetnVtQ8XWgerWQ5XiMa+4lAJzQyf3uqeVqtl5eWlpsubCOhWupchlewVvIPQZxko8MaHkq5YtfCGQ2svImAK2bp+yJsIIbnIvDFCeZxPdCqlWH9HVQlb9unkYJA/LO8Vjg3eKs1Vye/inQ1bOksWslunLNKkaXuegO8LK4qVW4qMo4DOXknWZ41+iJh8DwVqcQ2wAUtLe7b+NERuxM4A6c=";
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

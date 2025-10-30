@@ -26,8 +26,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
-                        req.requestMatchers("/api/v1/auth/**")
+                        req.requestMatchers("/api/v1/auth/**",
+                                        "/swagger-ui.html",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                        "/swagger-resources/**"
+                                )
                                 .permitAll()
+                                .requestMatchers("/user/delete/**", "/user/id/**", "user/email/**"/*, "/task/delete/**"*/).hasAuthority("ADMIN")
+                                .requestMatchers("/task/**", "/user/**").authenticated()
                                 .anyRequest()
                                 .authenticated()
                 )
@@ -39,3 +46,4 @@ public class SecurityConfig {
         return http.build();
     }
 }
+
