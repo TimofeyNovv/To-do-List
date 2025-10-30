@@ -1,6 +1,8 @@
 package com.example.ToDoList.service;
 
 import com.example.ToDoList.dto.user.UserResponseDto;
+import com.example.ToDoList.dto.user.UserSmallInfoDto;
+import com.example.ToDoList.model.entity.user.UserEntity;
 
 public interface UserService {
 
@@ -9,4 +11,6 @@ public interface UserService {
 
     void deleteUserById(Integer id);
     void deleteUserByEmail(String email);
+
+    UserSmallInfoDto getCurrentUserInfo(UserEntity currentUser);
 }

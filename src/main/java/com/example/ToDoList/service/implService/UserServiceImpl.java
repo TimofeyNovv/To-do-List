@@ -2,6 +2,7 @@ package com.example.ToDoList.service.implService;
 
 import com.example.ToDoList.dto.task.TaskSmallInfoDto;
 import com.example.ToDoList.dto.user.UserResponseDto;
+import com.example.ToDoList.dto.user.UserSmallInfoDto;
 import com.example.ToDoList.exception.AdminDeletionException;
 import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.model.entity.user.Role;
@@ -82,6 +83,15 @@ public class UserServiceImpl implements UserService {
             throw new AdminDeletionException("Cannot delete user with ADMIN authority");
         }
         repository.deleteByEmail(email);
+    }
+
+    @Override
+    public UserSmallInfoDto getCurrentUserInfo(UserEntity currentUser) {
+        return UserSmallInfoDto.builder()
+                .email(currentUser.getEmail())
+                .name(currentUser.getName())
+                .role(currentUser.getRole())
+                .build();
     }
 
 }
