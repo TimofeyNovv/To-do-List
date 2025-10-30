@@ -3,9 +3,8 @@ package com.example.ToDoList.service.implService;
 import com.example.ToDoList.dto.task.*;
 import com.example.ToDoList.dto.user.UserSmallInfoDto;
 import com.example.ToDoList.exception.NoAccessException;
-import com.example.ToDoList.exception.TaskAlreadyExistsException;
 import com.example.ToDoList.exception.TaskNotFoundException;
-import com.example.ToDoList.exception.UserNotFoundException;
+import com.example.ToDoList.exception.TasksWithStatusNotFoundException;
 import com.example.ToDoList.model.entity.task.StatusTask;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
@@ -25,8 +24,6 @@ import java.util.stream.Collectors;
 public class TaskServiceImpl implements TaskService {
 
     private final TaskRepository repository;
-
-    private final UserRepository userRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -134,6 +131,25 @@ public class TaskServiceImpl implements TaskService {
         }
         task.setStatus(StatusTask.valueOf(request.getStatus().toUpperCase()));
         repository.save(task);
+    }
+
+    @Override
+    public List<TaskSmallInfoDto> getTasksByStatus(UserEntity currentUser, String statusTask) {
+        List<TaskEntity> tasks = repository.findByOwnerAndStatus(currentUser, StatusTask.valueOf(statusTask));
+        if (tasks.isEmpty()){
+            throw new TasksWithStatusNotFoundException("Task with status - " + statusTask + " not found");
+        }
+        return tasks.stream()
+                .map(this::convertToTaskSmallInfoDto)
+                .collect(Collectors.toList());
+    }
+
+    private TaskSmallInfoDto convertToTaskSmallInfoDto(TaskEntity task) {
+        return TaskSmallInfoDto.builder()
+                .title(task.getTitle())
+                .description(task.getDescription())
+                .status(task.getStatus())
+                .build();
     }
 
 }

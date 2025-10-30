@@ -18,4 +18,6 @@ public interface TaskService {
     void updateDescription(TaskDescUpdateDto request, UserEntity currentUser);
     void updateTitle(TaskTitleUpdateDto request, UserEntity currentUser);
     void updateStatus(TaskStatusUpdateDto request, UserEntity currentUser);
+
+    List<TaskSmallInfoDto> getTasksByStatus(UserEntity currentUser, String statusTask);
 }

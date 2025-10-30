@@ -1,5 +1,6 @@
 package com.example.ToDoList.repository;
 
+import com.example.ToDoList.model.entity.task.StatusTask;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,5 +21,7 @@ public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
 
     boolean existsByOwner(UserEntity owner);
     boolean existsByTitle(String title);
+
+    List<TaskEntity> findByOwnerAndStatus(UserEntity owner, StatusTask status);
 }
 
