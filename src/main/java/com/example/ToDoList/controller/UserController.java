@@ -2,6 +2,7 @@ package com.example.ToDoList.controller;
 
 import com.example.ToDoList.dto.ErrorResponse;
 import com.example.ToDoList.dto.user.UserResponseDto;
+import com.example.ToDoList.dto.user.UserSmallInfoDto;
 import com.example.ToDoList.exception.UserNotFoundException;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.service.implService.UserServiceImpl;
@@ -87,7 +88,7 @@ public class UserController {
     @Operation(
             summary = "получить информацию о текущем пользвоателе",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "успешно")
+                    @ApiResponse(responseCode = "200", description = "успешно",content = @Content(schema = @Schema(implementation = UserSmallInfoDto.class)))
             }
     )
     @GetMapping("/me")

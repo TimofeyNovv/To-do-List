@@ -2,7 +2,6 @@ package com.example.ToDoList.controller;
 
 import com.example.ToDoList.dto.ErrorResponse;
 import com.example.ToDoList.dto.task.*;
-import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.TaskEntity;
 import com.example.ToDoList.model.entity.user.UserEntity;
 import com.example.ToDoList.service.implService.TaskServiceImpl;
@@ -124,5 +123,16 @@ public class TaskController {
     public ResponseEntity<TaskCreateDto> updateStatus(@AuthenticationPrincipal UserEntity currentUser, @Valid @RequestBody TaskStatusUpdateDto request) {
         service.updateStatus(request, currentUser);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(
+            summary = "получить список всех задач текущего пользователя",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "успешно", content = @Content(schema = @Schema (implementation = TaskSmallInfoDto[].class)))
+            }
+    )
+    @GetMapping("/all")
+    public ResponseEntity<?> getAllTaskForCurrentUser(@AuthenticationPrincipal UserEntity currentUser){
+        return ResponseEntity.ok(service.findByOwner(currentUser));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.ToDoList.unit.services;
 
 import com.example.ToDoList.dto.task.TaskResponseDto;
+import com.example.ToDoList.dto.task.TaskSmallInfoDto;
 import com.example.ToDoList.exception.TaskNotFoundException;
 import com.example.ToDoList.model.entity.task.StatusTask;
 import com.example.ToDoList.model.entity.task.TaskEntity;
@@ -95,7 +96,7 @@ public class TaskServiceTest {
         List<TaskEntity> tasks = List.of(testTask, testTask2);
         when(repository.findByOwner(user)).thenReturn(tasks);
 
-        List<TaskResponseDto> result = taskService.findByOwner(user);
+        List<TaskSmallInfoDto> result = taskService.findByOwner(user);
 
         assertNotNull(result);
         assertEquals(2, result.size());

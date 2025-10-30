@@ -8,7 +8,7 @@ import java.util.List;
 public interface TaskService {
 
     TaskResponseDto findById(Integer id, UserEntity currentUser);
-    List<TaskResponseDto> findByOwner(UserEntity owner);
+    List<TaskSmallInfoDto> findByOwner(UserEntity owner);
 
     void deleteById(Integer id, UserEntity currentUser);
     void deleteByOwner(UserEntity owner);

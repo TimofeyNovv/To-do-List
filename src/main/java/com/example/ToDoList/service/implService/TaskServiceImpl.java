@@ -54,7 +54,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<TaskResponseDto> findByOwner(UserEntity owner) {
+    public List<TaskSmallInfoDto> findByOwner(UserEntity owner) {
         List<TaskEntity> tasks = repository.findByOwner(owner);
 
         if (tasks.isEmpty()) {
@@ -62,15 +62,10 @@ public class TaskServiceImpl implements TaskService {
         }
 
         return tasks.stream()
-                .map(task -> TaskResponseDto.builder()
+                .map(task -> TaskSmallInfoDto.builder()
                         .title(task.getTitle())
                         .description(task.getDescription())
                         .status(task.getStatus())
-                        .owner(UserSmallInfoDto.builder()
-                                .name(owner.getName())
-                                .email(owner.getEmail())
-                                .role(owner.getRole())
-                                .build())
                         .build())
                 .collect(Collectors.toList());
     }
