@@ -32,7 +32,7 @@ public class TaskController {
             summary = "получить задачу по её id",
             description = "получает задачу по её id",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Задача найдена", content = @Content(schema = @Schema(hidden = true))),
+                    @ApiResponse(responseCode = "200", description = "Задача найдена", content = @Content(schema = @Schema(implementation = TaskResponseDto.class))),
                     @ApiResponse(responseCode = "404", description = "Задача не найдена", content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
                     @ApiResponse(responseCode = "403", description = "нету доступа, тк это не задача текущего пользователя", content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
             }
