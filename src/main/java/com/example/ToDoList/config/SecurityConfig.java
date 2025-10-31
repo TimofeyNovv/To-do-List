@@ -30,7 +30,8 @@ public class SecurityConfig {
                                         "/swagger-ui.html",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
-                                        "/swagger-resources/**"
+                                        "/swagger-resources/**",
+                                        "/docs"
                                 )
                                 .permitAll()
                                 .requestMatchers("/user/delete/**", "/user/id/**", "user/email/**"/*, "/task/delete/**"*/).hasAuthority("ADMIN")
