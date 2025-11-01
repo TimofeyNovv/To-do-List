@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
-    @NotBlank(message = "email не может быть пустым")
-    @Email(message = "Некорректный формат email")
+    //@NotBlank(message = "email не может быть пустым")
+    //@Email(message = "Некорректный формат email")
     @Schema(description = "Email пользователя")
     private String email;
 
-    @NotBlank(message = "пароль не может быть пустым")
+    //@NotBlank(message = "пароль не может быть пустым")
     @Schema(description = "пароль пользователя")
     String password;
 }

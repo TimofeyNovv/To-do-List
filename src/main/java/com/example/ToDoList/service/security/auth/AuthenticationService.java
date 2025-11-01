@@ -29,7 +29,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistsException("Пользователь с email " + request.getEmail() + " уже сущетвует");
+            throw new UserAlreadyExistsException("Пользователь с email " + request.getEmail() + " уже существует");
         }
         var user = UserEntity.builder()
                 .name(request.getName())
@@ -49,7 +49,7 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         String email = request.getEmail();
         if (!userRepository.existsByEmail(email)) {
-            throw new UserNotFoundException("User with email -" + email + " not found");
+            throw new UserNotFoundException("User with email " + email + " not found");
         }
 
         try {

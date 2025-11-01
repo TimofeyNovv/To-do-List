@@ -48,12 +48,12 @@ public class AuthenticationController {
     }
 
     @Operation(
-            summary = "аунтетификация пользователя",
-            description = "Возвразщает jwt токены, для достапа к api",
+            summary = "аутентификация пользователя",
+            description = "Возвращает jwt токены, для доступа к api",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Успешная аунтентификация"),
-                    @ApiResponse(responseCode = "400", description = "Невалидные данные",
-                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+                    @ApiResponse(responseCode = "200", description = "Успешная аутентификация"),
+                    /*@ApiResponse(responseCode = "400", description = "Невалидные данные",
+                            content = @Content(schema = @Schema(implementation = ErrorResponse.class))),*/
                     @ApiResponse(responseCode = "401", description = "Неверный пароль",
                             content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
                     @ApiResponse(responseCode = "404", description = "Нет пользователя с таким email",
@@ -62,7 +62,7 @@ public class AuthenticationController {
     )
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authentication(
-            @Valid
+            //@Valid
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Учетные данные пользователя"
             )
