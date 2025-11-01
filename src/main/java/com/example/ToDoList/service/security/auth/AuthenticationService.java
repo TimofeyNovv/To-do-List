@@ -29,7 +29,7 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new UserAlreadyExistsException("Пользователь с email " + request.getEmail() + " уже существует");
+            throw new UserAlreadyExistsException("User with email " + request.getEmail() + " already exists");
         }
         var user = UserEntity.builder()
                 .name(request.getName())
